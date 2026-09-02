@@ -528,45 +528,143 @@ adb connect localhost:5555
 
 
 
-USB Debugging must be enabled on your Android device before Pegasus can connect.
+## 📱 Android Device Setup
 
-### Enable USB Debugging
+> **No USB cable required.** PEGASUS PRO now supports fully wireless connection via IP address — on the same Wi-Fi network or over the internet.
 
+---
+
+### ⚡ Quick Start — IP Connect Launcher
+
+Run this instead of the main script to connect wirelessly first:
+
+```bash
+# Linux / macOS
+python3 pegasus_ip_connect.py
+
+# Windows
+python pegasus_ip_connect.py
 ```
-Settings → About Phone
-→ Tap "Build Number" 7 times rapidly
-→ "You are now a developer!" message appears
-→ Go back → Settings → Developer Options
-→ Toggle ON "USB Debugging"
-→ Connect phone to PC via USB
-→ On phone popup: tap "Allow"
+
+The launcher guides you through one of three connection modes automatically, then opens the main Pegasus tool once connected.
+
+---
+
+### 📡 Connection Modes
+
+---
+
+#### Mode 1 — Same Network / LAN (Recommended)
+
+Both your PC and phone are on the **same Wi-Fi network**.
+
+**On your phone (one-time setup):**
+```
+Settings → Developer Options → Wireless Debugging → ON
+```
+> Don't see Developer Options?
+> Settings → About Phone → tap "Build Number" 7 times → go back
+
+**Find your phone's IP address:**
+```
+Settings → Wi-Fi → tap your network → IP address
+  ─── OR ───
+Settings → About Phone → Status → IP address
 ```
 
-### Switch to Wireless Mode (Wi-Fi ADB)
+**Then run:**
+```bash
+python3 pegasus_ip_connect.py
+# Select [1] Same Network / LAN
+# Enter your phone's IP address (e.g. 192.168.1.42)
+```
 
-> One-time USB setup required. After that, go fully wireless.
+✅ Connected — main Pegasus tool launches automatically.
 
-1. Connect device via USB cable
-2. Launch Pegasus → Select **`[2] Connect a Device`**
-3. Enter `y` when asked to enable TCP/IP mode
-4. Find your device IP: **Settings → Wi-Fi → Tap connected network → IP Address**
-5. Enter the IP in Pegasus when prompted
-6. Unplug USB — connection is now wireless ✅
+---
+
+#### Mode 2 — Android 11+ Wireless Pairing (Zero USB, Ever)
+
+Available on **Android 11 and newer**. No USB cable needed at any step.
+
+**On your phone:**
+```
+Settings → Developer Options → Wireless Debugging → ON
+→ Tap "Pair device with pairing code"
+→ Note: Wi-Fi Pairing Code (6 digits) + IP & Port shown on screen
+```
+
+**Then run:**
+```bash
+python3 pegasus_ip_connect.py
+# Select [2] Android 11+ Pairing Code
+# Enter the IP, pairing port, and 6-digit code shown on your phone
+```
+
+> ⚠️ The pairing code refreshes every ~30 seconds. Enter it quickly.
+
+✅ After pairing, connect using the main IP & Port shown at the top of the Wireless Debugging screen.
+
+---
+
+#### Mode 3 — Different Network / Internet (WAN)
+
+Connect to a phone that is **on a different Wi-Fi network** or anywhere on the internet.
+
+**Option A — Router Port Forwarding** *(if you control the router near the phone)*
+
+1. Enable Wireless Debugging on the phone (see Mode 1)
+2. Log in to the router admin panel (usually `192.168.1.1`)
+3. Add a port forwarding rule:
+   - External Port: `5555`
+   - Internal IP: `<phone's LAN IP>`
+   - Internal Port: `5555`
+   - Protocol: `TCP`
+4. Find the router's public IP: visit [https://api.ipify.org](https://api.ipify.org)
+
+**Option B — ngrok Tunnel** *(no router access needed)*
+
+```bash
+# On a PC on the same network as the phone:
+adb connect <phone-LAN-ip>:5555
+ngrok tcp <phone-LAN-ip>:5555
+# ngrok shows: tcp://0.tcp.ngrok.io:XXXXX → use this host + port
+```
+
+**Then run:**
+```bash
+python3 pegasus_ip_connect.py
+# Select [3] Different Network / Internet
+# Enter the public IP and port
+```
+
+---
+
+### 📊 Connection Method Comparison
+
+| Method | USB Required? | Developer Settings | Works Over Internet? |
+|--------|:-------------:|-------------------|:-------------------:|
+| Mode 1 — LAN | ❌ Never | Wireless Debugging ON | ❌ No |
+| Mode 2 — Pairing Code | ❌ Never | Wireless Debugging ON | ❌ No |
+| Mode 3 — WAN | ❌ Never | Wireless Debugging ON | ✅ Yes |
+| Legacy USB | ✅ Required | USB Debugging ON | ❌ No |
 
 ---
 
 ## 🚀 Usage
 
 ```bash
-# Linux / macOS — Latest Version
-python3 pegasus_v_1.3.py
+# ⭐ NEW — IP Connect Launcher (Recommended, no USB needed)
+python3 pegasus_ip_connect.py   # Linux / macOS
+python pegasus_ip_connect.py    # Windows
 
-# Windows — Latest Version
-python pegasus_v_1.3.py
+# Direct launch (device must already be connected via ADB)
+python3 pegasus_v_1.3.py        # Linux / macOS — v1.3
+python pegasus_v_1.3.py         # Windows — v1.3
 
-# Run older versions
-python3 pegasusV-1.2.py    # v1.2
-python3 pegasus_v1.1.py    # v1.1
+# Older versions
+python3 pegasusV-1.2.py         # v1.2
+python3 pegasus_v1.1.py         # v1.1
 ```
 
 **Main Menu Preview:**

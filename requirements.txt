@@ -1,14 +1,35 @@
-# Pegasus - Android Device Management Tool
-# Requirements File
-# Install: pip install -r requirements.txt
+# PEGASUS PRO — Requirements
+# Install all dependencies:  pip install -r requirements.txt
 
-# Required
+# ── Required ───────────────────────────────────────────────
 colorama>=0.4.6        # Color-coded terminal output (Windows/Linux/macOS/Termux)
 
-# Already built into Python (no install needed):
-# os, sys, base64, zlib, hashlib, hmac, subprocess, re, datetime, time, json
+# ── Already built into Python (no install needed) ──────────
+# os, sys, base64, zlib, hashlib, hmac
+# subprocess, socket, platform, time
 
-# System tools (install separately via your OS package manager):
-# adb          → Android Debug Bridge  (required for all features)
-# scrcpy       → Screen Mirror         (optional, NOT available in Termux)
-# nmap         → Network Security Scan (optional)
+# ── System Tools (install separately via OS package manager) ─
+#
+#   adb    → Android Debug Bridge (REQUIRED for all features)
+#
+#     Windows  : https://developer.android.com/tools/releases/platform-tools
+#     macOS    : brew install android-platform-tools
+#     Linux    : sudo apt install adb
+#     Termux   : pkg install android-tools
+#
+#   scrcpy → Screen mirroring (optional, NOT available in Termux)
+#
+#     Windows  : https://github.com/Genymobile/scrcpy/releases
+#     macOS    : brew install scrcpy
+#     Linux    : sudo apt install scrcpy
+#
+#   nmap   → Network Security Scan (optional)
+#
+#     Windows  : https://nmap.org/download.html
+#     macOS    : brew install nmap
+#     Linux    : sudo apt install nmap
+#
+# ── Optional: Internet tunneling (for WAN / different network) ─
+#
+#   ngrok  → Expose ADB port over the internet (free account)
+#     https://ngrok.com/download
